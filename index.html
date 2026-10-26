@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Desafio interativo de Matemática sobre funções afins, gráficos e tabelas.">
+  <title>Desafio das Funções</title>
+  <style>
+    :root {
+      --navy: #26364a;
+      --blue: #2563eb;
+      --blue-dark: #174fc5;
+      --blue-light: #9dd4ff;
+      --green: #22a06b;
+      --ink: #17263b;
+      --muted: #718197;
+      --line: #e2eaf2;
+      --page: #f3f7fc;
+    }
+
+    * { box-sizing: border-box; }
+
+    [hidden] { display: none !important; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button, input, select { font: inherit; }
+
+    .app-shell {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 24px 36px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: var(--navy);
+      color: white;
+      font-weight: 900;
+    }
+
+    .brand-name { font-weight: 850; letter-spacing: -.02em; }
+    .brand-subtitle { margin-top: 2px; color: #6b7c91; font-size: 13px; }
+
+    .top-pill {
+      margin-left: auto;
+      padding: 9px 14px;
+      border: 1px solid #d7e2ee;
+      border-radius: 999px;
+      background: white;
+      color: #456079;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .welcome-card {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 28px;
+      align-items: center;
+      margin: 20px 0;
+      padding: 34px;
+      border-radius: 24px;
+      background: linear-gradient(120deg, var(--navy), #315b83);
+      color: white;
+      box-shadow: 0 18px 40px #26364a18;
+    }
+
+    .eyebrow, .question-label {
+      margin: 0;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: .13em;
+    }
+
+    .eyebrow { color: var(--blue-light); }
+
+    h1 {
+      margin: 9px 0 0;
+      font-size: clamp(30px, 5vw, 46px);
+      line-height: 1.08;
+      letter-spacing: -.045em;
+    }
+
+    .welcome-copy h1 span { color: var(--blue-light); }
+
+    .lead {
+      max-width: 570px;
+      margin: 16px 0 20px;
+      color: #d9e9f6;
+      line-height: 1.65;
+    }
+
+    .welcome-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .welcome-tags span {
+      padding: 8px 11px;
+      border: 1px solid #ffffff35;
+      border-radius: 999px;
+      background: #ffffff12;
+      color: #f4f9ff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .name-card {
+      padding: 24px;
+      border-radius: 18px;
+      background: white;
+      color: var(--ink);
+      box-shadow: 0 12px 28px #10243b22;
+    }
+
+    .name-icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 14px;
+      border-radius: 13px;
+      background: #fff4d4;
+      font-size: 20px;
+    }
+
+    .name-card label {
+      display: block;
+      font-size: 17px;
+      font-weight: 850;
+    }
+
+    .name-card p {
+      margin: 5px 0 15px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    input, select {
+      width: 100%;
+      min-width: 0;
+      padding: 13px 14px;
+      border: 1px solid #ccd8e5;
+      border-radius: 11px;
+      outline: none;
+      background: white;
+      color: var(--navy);
+    }
+
+    input:focus, select:focus {
+      border-color: #3985e8;
+      box-shadow: 0 0 0 3px #3985e822;
+    }
+
+    .primary-button, .next-button {
+      padding: 13px 18px;
+      border: 0;
+      border-radius: 11px;
+      background: var(--blue);
+      color: white;
+      font-weight: 850;
+      cursor: pointer;
+      transition: transform .15s, background .15s;
+    }
+
+    .primary-button:hover, .next-button:hover {
+      transform: translateY(-1px);
+      background: var(--blue-dark);
+    }
+
+    .primary-button span, .next-button span { padding-left: 8px; }
+    .name-card .primary-button { width: 100%; margin-top: 12px; }
+
+    .intro-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0 18px;
+      padding: 24px 30px;
+      border-radius: 20px;
+      background: linear-gradient(115deg, var(--navy), #315b83);
+      color: white;
+    }
+
+    .intro-banner h1 { font-size: clamp(25px, 4vw, 34px); }
+
+    .banner-copy {
+      margin: 8px 0 0;
+      color: #d9e9f6;
+      line-height: 1.5;
+    }
+
+    .banner-star {
+      display: grid;
+      place-items: center;
+      width: 60px;
+      height: 60px;
+      flex: 0 0 60px;
+      margin-left: 18px;
+      border-radius: 19px;
+      background: #ffffff1f;
+      color: #ffd66b;
+      font-size: 32px;
+      transform: rotate(8deg);
+    }
+
+    .quiz-card {
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: white;
+      box-shadow: 0 12px 32px #26364a0d;
+    }
+
+    .quiz-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .question-label { color: #64809b; }
+
+    .quiz-head h2 {
+      margin: 7px 0 0;
+      font-size: clamp(20px, 3vw, 27px);
+      letter-spacing: -.03em;
+    }
+
+    .streak-count {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+      white-space: nowrap;
+      color: #65758a;
+      font-size: 13px;
+    }
+
+    .streak-count strong {
+      color: var(--green);
+      font-size: 29px;
+    }
+
+    .progress-area { margin: 22px 0 20px; }
+
+    .dots {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 9px;
+    }
+
+    .dot {
+      height: 13px;
+      border-radius: 999px;
+      background: #cbd5e1;
+      transition: background .2s, box-shadow .2s;
+    }
+
+    .dot.done {
+      background: var(--green);
+      box-shadow: 0 0 0 3px #22a06b1a;
+    }
+
+    .progress-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 9px;
+      color: #77869a;
+      font-size: 12px;
+    }
+
+    .graph-panel {
+      padding: 16px 18px 12px;
+      border: 1px solid #e1eaf4;
+      border-radius: 16px;
+      background: #f7faff;
+    }
+
+    .graph-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      color: #52677e;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .graph-key {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: #6c7f94;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .graph-key i {
+      display: inline-block;
+      width: 18px;
+      height: 4px;
+      border-radius: 5px;
+      background: var(--blue);
+    }
+
+    .graph-host {
+      width: 100%;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .graph-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 390px;
+    }
+
+    .table-panel {
+      margin-top: 14px;
+      padding: 18px;
+      border: 1px solid #e1eaf4;
+      border-radius: 16px;
+      background: #f8fbff;
+    }
+
+    .table-heading {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 13px;
+    }
+
+    .table-icon {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: #eaf3ff;
+      color: var(--blue);
+      font-size: 20px;
+    }
+
+    .table-heading strong, .table-heading span { display: block; }
+    .table-heading strong { font-size: 14px; }
+
+    .table-heading span {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .value-table {
+      width: 100%;
+      overflow: hidden;
+      border-collapse: collapse;
+      border-radius: 10px;
+      background: white;
+    }
+
+    .value-table th, .value-table td {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .value-table th {
+      background: #eaf3ff;
+      color: #315b83;
+      font-size: 13px;
+    }
+
+    .value-table td {
+      color: #34465c;
+      font-weight: 700;
+    }
+
+    .answer-area { margin-top: 20px; }
+
+    .answer-area label {
+      display: block;
+      margin-bottom: 8px;
+      color: #34465c;
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .answer-row { display: flex; gap: 10px; }
+    .answer-row input, .answer-row select { flex: 1; }
+
+    .choice-list {
+      display: grid;
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .choice-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1px solid #dbe5ef;
+      border-radius: 11px;
+      background: #fbfdff;
+      color: #34465c;
+      cursor: pointer;
+      line-height: 1.4;
+    }
+
+    .choice-option:has(input:checked) {
+      border-color: #3985e8;
+      background: #eef6ff;
+      box-shadow: 0 0 0 2px #3985e81a;
+    }
+
+    .choice-option input {
+      width: 17px;
+      height: 17px;
+      flex: 0 0 17px;
+      margin: 0;
+      accent-color: var(--blue);
+    }
+
+    .answer-hint {
+      margin: 8px 0 0;
+      color: #8391a3;
+      font-size: 12px;
+    }
+
+    .feedback {
+      margin-top: 13px;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .feedback.correct {
+      border: 1px solid #b9ead4;
+      background: #edfbf4;
+      color: #176a48;
+    }
+
+    .feedback.incorrect {
+      border: 1px solid #f2c8c8;
+      background: #fff2f2;
+      color: #8c3030;
+    }
+
+    .next-button {
+      display: block;
+      margin: 13px 0 0 auto;
+    }
+
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .tip-card, .certificate-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: white;
+    }
+
+    .tip-icon, .certificate-icon {
+      display: grid;
+      place-items: center;
+      flex: 0 0 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: #eaf3ff;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    .certificate-icon {
+      background: #fff5d8;
+      color: #bd7d00;
+      font-size: 18px;
+    }
+
+    .bottom-grid h3 { margin: 0 0 5px; font-size: 14px; }
+
+    .bottom-grid p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .certificate-screen {
+      padding: 20px 0 8px;
+      text-align: center;
+    }
+
+    .success-heading { margin-bottom: 22px; }
+
+    .success-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 62px;
+      height: 62px;
+      margin-bottom: 10px;
+      border-radius: 20px;
+      background: #fff5d8;
+      font-size: 31px;
+    }
+
+    .success-heading .eyebrow { color: #b27c08; }
+
+    .success-heading h1 {
+      margin-top: 7px;
+      font-size: clamp(29px, 5vw, 42px);
+    }
+
+    .success-heading h1 span { color: var(--blue); }
+
+    .success-heading > p:last-child {
+      margin: 9px 0 0;
+      color: var(--muted);
+    }
+
+    .diploma {
+      max-width: 790px;
+      margin: 0 auto;
+      padding: 13px;
+      border: 2px solid #d7b454;
+      border-radius: 10px;
+      background: #fffaf0;
+      box-shadow: 0 18px 40px #26364a15;
+      text-align: left;
+    }
+
+    .diploma-inner {
+      display: flex;
+      min-height: 430px;
+      flex-direction: column;
+      padding: 28px 38px;
+      border: 1px solid #e8d28e;
+      background: radial-gradient(circle at top right, #fff2c8 0, transparent 34%), #fffdf7;
+    }
+
+    .diploma-top, .diploma-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .diploma-brand {
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 850;
+    }
+
+    .diploma-brand span {
+      display: inline-grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      margin-right: 6px;
+      border-radius: 9px;
+      background: var(--navy);
+      color: white;
+    }
+
+    .diploma-seal {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border: 2px solid #d6ad3c;
+      border-radius: 50%;
+      color: #bd8b13;
+      font-size: 24px;
+    }
+
+    .diploma-content {
+      flex: 1;
+      padding: 24px 0;
+      text-align: center;
+    }
+
+    .diploma-kicker {
+      margin: 0;
+      color: #9c7618;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .28em;
+    }
+
+    .diploma-content h2 {
+      margin: 8px 0 17px;
+      color: var(--navy);
+      font-family: Georgia, serif;
+      font-size: clamp(26px, 4vw, 35px);
+    }
+
+    .diploma-copy {
+      max-width: 550px;
+      margin: 10px auto;
+      color: #627187;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .student-name {
+      display: inline-block;
+      min-width: 240px;
+      padding: 4px 18px 8px;
+      border-bottom: 1px solid #bf9c3e;
+      color: var(--navy);
+      font-family: Georgia, serif;
+      font-size: clamp(22px, 4vw, 31px);
+      font-weight: 700;
+    }
+
+    .achievement {
+      display: inline-block;
+      margin-top: 9px;
+      padding: 10px 17px;
+      border-radius: 999px;
+      background: #e9f7ef;
+      color: #18734d;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .diploma-bottom {
+      align-items: flex-end;
+      color: #44556c;
+      font-size: 12px;
+    }
+
+    .signature {
+      min-width: 190px;
+      padding-top: 8px;
+      border-top: 1px solid #98a4b3;
+      text-align: center;
+    }
+
+    .signature span, .signature small { display: block; }
+    .signature span { font-weight: 800; }
+
+    .signature small {
+      margin-top: 3px;
+      color: #8391a3;
+    }
+
+    .diploma-date { text-align: right; color: #65758a; }
+    .restart-button { margin: 20px auto 0; }
+
+    @page {
+      size: A4 landscape;
+      margin: 10mm;
+    }
+
+    @media print {
+      body {
+        background: white;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+
+      .app-shell {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .topbar,
+      footer,
+      #welcomeScreen,
+      #quizScreen,
+      .success-heading,
+      #downloadCertificateButton,
+      #restartButton {
+        display: none !important;
+      }
+
+      #certificateScreen {
+        display: block !important;
+        margin: 0;
+        padding: 0;
+      }
+
+      .diploma {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .diploma-inner {
+        min-height: 170mm;
+        padding: 14mm 18mm;
+      }
+    }
+
+    footer {
+      padding: 24px 0 0;
+      color: #8795a7;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    footer span { padding: 0 5px; color: var(--green); }
+
+    @media (max-width: 700px) {
+      .app-shell { padding: 0 14px 28px; }
+      .welcome-card { grid-template-columns: 1fr; gap: 20px; padding: 23px; }
+      .welcome-tags { gap: 6px; }
+      .welcome-tags span { font-size: 11px; }
+      .name-card { padding: 20px; }
+      .intro-banner { padding: 20px; }
+      .banner-star { width: 48px; height: 48px; flex-basis: 48px; font-size: 26px; }
+      .quiz-card { padding: 18px; }
+      .quiz-head { flex-direction: column; }
+      .streak-count { align-self: flex-end; margin-top: -4px; }
+      .dots { gap: 5px; }
+      .dot { height: 10px; }
+      .bottom-grid { grid-template-columns: 1fr; }
+      .answer-row { flex-direction: column; }
+      .answer-row .primary-button { min-height: 46px; }
+      .graph-panel { padding: 13px 11px 8px; }
+      .graph-title { align-items: flex-start; flex-direction: column; }
+      .graph-svg { min-height: 225px; }
+      .diploma { padding: 7px; }
+      .diploma-inner { min-height: 390px; padding: 20px 14px; }
+      .diploma-brand { font-size: 11px; }
+      .diploma-seal { width: 38px; height: 38px; }
+      .diploma-bottom { font-size: 10px; }
+      .signature { min-width: 145px; }
+      .student-name { min-width: 180px; }
+      .value-table th, .value-table td { padding: 9px 5px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">f(x)</div>
+        <div>
+          <div class="brand-name">Desafio das Funções</div>
+          <div class="brand-subtitle">Matemática • Ensino Médio</div>
+        </div>
+      </div>
+      <div class="top-pill">Treino de gráficos</div>
+    </header>
+
+    <main>
+      <section id="welcomeScreen" class="welcome-card">
+        <div class="welcome-copy">
+          <p class="eyebrow">APRENDA PRATICANDO</p>
+          <h1>Leia o gráfico.<br><span>Descubra a função.</span></h1>
+          <p class="lead">Analise retas, interprete tabelas e pratique os conceitos de função afim. Acerte 10 questões seguidas para conquistar seu certificado.</p>
+          <div class="welcome-tags">
+            <span>📈 Gráficos aleatórios</span>
+            <span>🎯 Desafio de 10 acertos</span>
+            <span>🏅 Certificado</span>
+          </div>
+        </div>
+
+        <form id="startForm" class="name-card">
+          <div class="name-icon" aria-hidden="true">✏️</div>
+          <label for="studentName">Vamos iniciar o desafio</label>
+          <p>Digite seu nome para começar o desafio.</p>
+          <input id="studentName" type="text" maxlength="60" autocomplete="name" placeholder="Seu nome" required>
+          <button id="startButton" class="primary-button" type="submit" hidden>Começar desafio <span aria-hidden="true">→</span></button>
+        </form>
+      </section>
+
+      <section id="quizScreen" hidden>
+        <div class="intro-banner">
+          <div>
+            <p class="eyebrow">DESAFIO EM ANDAMENTO</p>
+            <h1>Vamos descobrir essa função!</h1>
+            <p class="banner-copy">Leia com atenção. Cada questão traz uma reta ou uma tabela gerada para este desafio.</p>
+          </div>
+          <div class="banner-star" aria-hidden="true">★</div>
+        </div>
+
+        <section class="quiz-card">
+          <div class="quiz-head">
+            <div>
+              <span id="questionKind" class="question-label">QUESTÃO</span>
+              <h2 id="questionPrompt">Pergunta</h2>
+            </div>
+            <div class="streak-count"><strong id="streakNumber">0</strong><span>/ 10 acertos</span></div>
+          </div>
+
+          <div class="progress-area" aria-label="Progresso de acertos consecutivos">
+            <div id="progressDots" class="dots"></div>
+            <div class="progress-caption"><span>Sequência de acertos</span><span>10 para o certificado</span></div>
+          </div>
+
+          <div id="graphPanel" class="graph-panel">
+            <div class="graph-title">
+              <span>Observe a reta no plano cartesiano</span>
+              <span class="graph-key"><i></i> Gráfico da questão</span>
+            </div>
+            <div id="graphHost" class="graph-host"></div>
+          </div>
+
+          <div id="tablePanel" class="table-panel" hidden>
+            <div class="table-heading">
+              <div class="table-icon" aria-hidden="true">▦</div>
+              <div>
+                <strong>Tabela de valores</strong>
+                <span>Observe como os valores de saída variam.</span>
+              </div>
+            </div>
+            <div id="tableHost"></div>
+          </div>
+
+          <form id="answerForm" class="answer-area">
+            <label id="answerLabel" for="answerInput">Sua resposta</label>
+            <div class="answer-row">
+              <input id="answerInput" type="text" autocomplete="off" placeholder="Digite sua resposta" aria-describedby="answerHint">
+              <select id="trendSelect" aria-label="Selecione se a função é crescente ou decrescente" hidden>
+                <option value="">Selecione uma opção</option>
+                <option value="crescente">Crescente</option>
+                <option value="decrescente">Decrescente</option>
+              </select>
+              <button id="confirmButton" class="primary-button" type="submit" hidden>Confirmar resposta <span aria-hidden="true">→</span></button>
+            </div>
+            <div id="formulaChoices" class="choice-list" role="radiogroup" aria-label="Alternativas para a função do gráfico" hidden></div>
+            <p id="answerHint" class="answer-hint">Digite sua resposta para liberar o botão de confirmação.</p>
+            <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+            <button id="nextButton" class="next-button" type="button" hidden>Próxima questão <span aria-hidden="true">→</span></button>
+          </form>
+        </section>
+
+        <div class="bottom-grid">
+          <article class="tip-card">
+            <div class="tip-icon" aria-hidden="true">i</div>
+            <div>
+              <h3>Como funciona a sequência?</h3>
+              <p>Cada acerto deixa uma bolinha verde. Se errar, a resposta correta aparece e a sequência recomeça do zero.</p>
+            </div>
+          </article>
+          <article class="certificate-card">
+            <div class="certificate-icon" aria-hidden="true">✦</div>
+            <div>
+              <h3>Meta: 10 acertos seguidos</h3>
+              <p>Ao completar o desafio, seu certificado aparecerá nesta página.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="certificateScreen" class="certificate-screen" hidden>
+        <div class="success-heading">
+          <div class="success-icon" aria-hidden="true">🏆</div>
+          <p class="eyebrow">DESAFIO CONCLUÍDO</p>
+          <h1>Parabéns, <span id="congratsName"></span>!</h1>
+          <p>Você conquistou 10 acertos consecutivos em Matemática.</p>
+        </div>
+
+        <article class="diploma" aria-label="Certificado de conclusão do desafio">
+          <div class="diploma-inner">
+            <div class="diploma-top">
+              <div class="diploma-brand"><span>f(x)</span> Desafio das Funções</div>
+              <div class="diploma-seal" aria-hidden="true">★</div>
+            </div>
+            <div class="diploma-content">
+              <p class="diploma-kicker">CERTIFICADO</p>
+              <h2>Conquista em Matemática</h2>
+              <p class="diploma-copy">Certificamos que</p>
+              <div id="diplomaName" class="student-name"></div>
+              <p class="diploma-copy">concluiu o desafio de funções no plano cartesiano, demonstrando dedicação e conhecimento ao alcançar</p>
+              <div class="achievement">10 acertos consecutivos</div>
+            </div>
+            <div class="diploma-bottom">
+              <div class="signature"><span>Desafio das Funções</span><small>Plataforma de aprendizagem</small></div>
+              <div id="completionDate" class="diploma-date"></div>
+            </div>
+          </div>
+        </article>
+
+        <button id="downloadCertificateButton" class="primary-button restart-button" type="button">Baixar certificado em PDF <span aria-hidden="true">↓</span></button>
+        <button id="restartButton" class="primary-button restart-button" type="button">Tentar novamente <span aria-hidden="true">↻</span></button>
+      </section>
+    </main>
+
+    <footer>Desafio das Funções <span>•</span> Pratique, descubra, conquiste.</footer>
+  </div>
+
+  <script>
+    (() => {
+      const welcomeScreen = document.getElementById("welcomeScreen");
+      const quizScreen = document.getElementById("quizScreen");
+      const certificateScreen = document.getElementById("certificateScreen");
+      const startForm = document.getElementById("startForm");
+      const studentNameInput = document.getElementById("studentName");
+      const startButton = document.getElementById("startButton");
+      const questionKind = document.getElementById("questionKind");
+      const questionPrompt = document.getElementById("questionPrompt");
+      const streakNumber = document.getElementById("streakNumber");
+      const progressDots = document.getElementById("progressDots");
+      const graphPanel = document.getElementById("graphPanel");
+      const graphHost = document.getElementById("graphHost");
+      const tablePanel = document.getElementById("tablePanel");
+      const tableHost = document.getElementById("tableHost");
+      const answerForm = document.getElementById("answerForm");
+      const answerInput = document.getElementById("answerInput");
+      const trendSelect = document.getElementById("trendSelect");
+      const formulaChoices = document.getElementById("formulaChoices");
+      const answerLabel = document.getElementById("answerLabel");
+      const answerHint = document.getElementById("answerHint");
+      const confirmButton = document.getElementById("confirmButton");
+      const feedback = document.getElementById("feedback");
+      const nextButton = document.getElementById("nextButton");
+
+      const questionTypes = ["trend", "b", "a", "graphFormula", "tableFormula"];
+      const typeLabels = {
+        trend: "LEITURA DO GRÁFICO",
+        b: "COEFICIENTE LINEAR",
+        a: "COEFICIENTE ANGULAR",
+        graphFormula: "FUNÇÃO DA RETA",
+        tableFormula: "PADRÃO DA TABELA"
+      };
+
+      let studentName = "";
+      let streak = 0;
+      let currentQuestion = null;
+      let questionQueue = [];
+      let answered = false;
+
+      function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function shuffle(array) {
+        const copy = [...array];
+        for (let i = copy.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+      }
+
+      function makeDots() {
+        progressDots.innerHTML = "";
+        for (let i = 0; i < 10; i++) {
+          const dot = document.createElement("span");
+          dot.className = "dot" + (i < streak ? " done" : "");
+          dot.setAttribute("aria-label", i < streak ? "Acerto conquistado" : "Acerto ainda não conquistado");
+          progressDots.appendChild(dot);
+        }
+        streakNumber.textContent = String(streak);
+      }
+
+      function nextQuestionType() {
+        if (questionQueue.length === 0) questionQueue = shuffle(questionTypes);
+        if (questionQueue.length > 1 && currentQuestion && questionQueue[0] === currentQuestion.type) {
+          [questionQueue[0], questionQueue[1]] = [questionQueue[1], questionQueue[0]];
+        }
+        return questionQueue.shift();
+      }
+
+      function makeLine() {
+        const slopes = [-2, -1, 1, 2];
+        const scales = [1, 2, 3, 5];
+        const scale = scales[randomInt(0, scales.length - 1)];
+        return {
+          a: slopes[randomInt(0, slopes.length - 1)],
+          b: randomInt(-3, 3) * scale,
+          xScale: scale,
+          yScale: scale
+        };
+      }
+
+      function formatFunction(a, b) {
+        let xPart;
+        if (a === 1) xPart = "x";
+        else if (a === -1) xPart = "−x";
+        else xPart = `${a}x`;
+
+        if (b === 0) return `y = ${xPart}`;
+        return `y = ${xPart} ${b > 0 ? "+" : "−"} ${Math.abs(b)}`;
+      }
+
+      function renderFormulaChoices(line) {
+        const candidates = [
+          { a: -line.a, b: line.b },
+          { a: line.a, b: line.b + 1 },
+          { a: line.a, b: line.b - 1 },
+          { a: line.a + 1, b: line.b },
+          { a: line.a - 1, b: line.b },
+          { a: -line.a, b: line.b + 1 }
+        ];
+        const unique = [];
+        const seen = new Set([`${line.a},${line.b}`]);
+
+        for (const candidate of candidates) {
+          const key = `${candidate.a},${candidate.b}`;
+          if (!seen.has(key)) {
+            seen.add(key);
+            unique.push(candidate);
+          }
+        }
+
+        const options = shuffle([
+          { a: line.a, b: line.b },
+          ...shuffle(unique).slice(0, 3)
+        ]);
+
+        formulaChoices.innerHTML = options.map((option, index) => {
+          const formula = formatFunction(option.a, option.b);
+          return `<label class="choice-option">
+            <input type="radio" name="formulaChoice" value="${formula.replace(/"/g, "&quot;")}">
+            <span>${String.fromCharCode(65 + index)}) ${formula}</span>
+          </label>`;
+        }).join("");
+      }
+
+      function renderGraph(line, highlightIntercept = false) {
+        const width = 500;
+        const height = 380;
+        const left = 90;
+        const right = 410;
+        const top = 25;
+        const bottom = 345;
+        const plotWidth = right - left;
+        const plotHeight = bottom - top;
+        const midX = left + plotWidth / 2;
+        const midY = top + plotHeight / 2;
+        const xMin = -5 * line.xScale;
+        const xMax = 5 * line.xScale;
+        const yMin = -5 * line.yScale;
+        const yMax = 5 * line.yScale;
+
+        const xPixel = value => left + ((value - xMin) / (xMax - xMin)) * plotWidth;
+        const yPixel = value => bottom - ((value - yMin) / (yMax - yMin)) * plotHeight;
+
+        let grid = "";
+        for (let i = 0; i <= 10; i++) {
+          const px = left + (plotWidth * i / 10);
+          const py = top + (plotHeight * i / 10);
+          grid += `<line x1="${px}" y1="${top}" x2="${px}" y2="${bottom}" stroke="#dce7f2" stroke-width="1"/>`;
+          grid += `<line x1="${left}" y1="${py}" x2="${right}" y2="${py}" stroke="#dce7f2" stroke-width="1"/>`;
+        }
+
+        let ticks = "";
+        for (let i = -5; i <= 5; i++) {
+          if (i !== 0) {
+            const px = midX + (plotWidth / 10) * i;
+            const py = midY - (plotHeight / 10) * i;
+            ticks += `<line x1="${px}" y1="${midY - 4}" x2="${px}" y2="${midY + 4}" stroke="#26364a" stroke-width="1.5"/>`;
+            ticks += `<text x="${px}" y="${midY + 21}" text-anchor="middle" class="tick-label">${i * line.xScale}</text>`;
+            ticks += `<line x1="${midX - 4}" y1="${py}" x2="${midX + 4}" y2="${py}" stroke="#26364a" stroke-width="1.5"/>`;
+            ticks += `<text x="${midX - 10}" y="${py + 4}" text-anchor="end" class="tick-label">${i * line.yScale}</text>`;
+          }
+        }
+
+        const points = [];
+        for (let i = 0; i <= 400; i++) {
+          const x = xMin + ((xMax - xMin) * i / 400);
+          const y = line.a * x + line.b;
+          if (y >= yMin && y <= yMax) points.push(`${xPixel(x)},${yPixel(y)}`);
+        }
+
+        const path = points.length > 1 ? `M ${points.join(" L ")}` : "";
+        const secondPointY = line.a * line.xScale + line.b;
+        const interceptMarker = `
+          <circle cx="${xPixel(0)}" cy="${yPixel(line.b)}" r="7"
+            fill="${highlightIntercept ? "#f0a928" : "#ffffff"}"
+            stroke="${highlightIntercept ? "#ffffff" : "#2563eb"}" stroke-width="3"/>
+          <circle cx="${xPixel(line.xScale)}" cy="${yPixel(secondPointY)}" r="6"
+            fill="#ffffff" stroke="#2563eb" stroke-width="3"/>
+          <text x="${xPixel(0) - 10}" y="${yPixel(line.b) - 12}" text-anchor="end" class="point-label">(0, ${line.b})</text>
+          <text x="${xPixel(line.xScale) + 10}" y="${yPixel(secondPointY) + 20}" text-anchor="start" class="point-label">(${line.xScale}, ${secondPointY})</text>`;
+        const axes = `
+          <line x1="${left}" y1="${midY}" x2="${right + 8}" y2="${midY}" stroke="#26364a" stroke-width="2.5" marker-end="url(#arrow)"/>
+          <line x1="${midX}" y1="${bottom + 4}" x2="${midX}" y2="${top - 8}" stroke="#26364a" stroke-width="2.5" marker-end="url(#arrow)"/>
+          <text x="${right + 15}" y="${midY + 5}" class="axis-label">x</text>
+          <text x="${midX + 8}" y="${top - 8}" class="axis-label">y</text>
+          <text x="${midX + 8}" y="${midY + 18}" class="zero-label">0</text>`;
+
+        graphHost.innerHTML = `
+          <svg class="graph-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Plano cartesiano com gráfico de uma reta">
+            <defs>
+              <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" fill="#26364a"/>
+              </marker>
+            </defs>
+            <style>
+              .tick-label { fill:#64748b; font:12px Arial,sans-serif; }
+              .axis-label { fill:#26364a; font:bold 16px Arial,sans-serif; }
+              .zero-label { fill:#26364a; font:12px Arial,sans-serif; }
+              .point-label { fill:#17263b; font:bold 13px Arial,sans-serif; paint-order:stroke; stroke:#fff; stroke-width:4px; stroke-linejoin:round; }
+            </style>
+            <rect x="${left}" y="${top}" width="${plotWidth}" height="${plotHeight}" rx="5" fill="#fff"/>
+            ${grid}
+            ${axes}
+            ${ticks}
+            <path d="${path}" fill="none" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+            ${interceptMarker}
+          </svg>`;
+      }
+
+      function renderTable(line) {
+        const xs = [-2, -1, 0, 1, 2].map(value => value * line.xScale);
+        const headers = xs.map(x => `<th scope="col">${x}</th>`).join("");
+        const values = xs.map(x => `<td>${line.a * x + line.b}</td>`).join("");
+
+        tableHost.innerHTML = `
+          <table class="value-table">
+            <thead><tr><th scope="col">x</th>${headers}</tr></thead>
+            <tbody><tr><th scope="row">f(x)</th>${values}</tr></tbody>
+          </table>`;
+      }
+
+      function buildQuestion() {
+        const type = nextQuestionType();
+        const line = makeLine();
+        currentQuestion = { type, ...line };
+        questionKind.textContent = typeLabels[type];
+        graphPanel.hidden = false;
+        tablePanel.hidden = true;
+        answerInput.hidden = false;
+        trendSelect.hidden = true;
+        formulaChoices.hidden = true;
+        renderGraph(line, type === "b");
+
+        if (type === "trend") {
+          answerInput.hidden = true;
+          trendSelect.hidden = false;
+          questionPrompt.textContent = "O gráfico é crescente ou decrescente?";
+          answerLabel.textContent = "Sua resposta";
+          answerInput.placeholder = "Digite: crescente ou decrescente";
+          answerInput.setAttribute("aria-label", "Digite se a função é crescente ou decrescente");
+          answerHint.textContent = "Selecione se a função é crescente ou decrescente.";
+        } else if (type === "b") {
+          questionPrompt.textContent = "Qual é o coeficiente b dessa função?";
+          answerLabel.textContent = "Valor de b";
+          answerInput.placeholder = "Digite um número inteiro";
+          answerInput.setAttribute("aria-label", "Digite o coeficiente b");
+          answerHint.textContent = "Lembre-se: b indica onde a reta cruza o eixo vertical.";
+        } else if (type === "a") {
+          questionPrompt.textContent = "Qual é o coeficiente a dessa função?";
+          answerLabel.textContent = "Valor de a";
+          answerInput.placeholder = "Digite um número inteiro";
+          answerInput.setAttribute("aria-label", "Digite o coeficiente a");
+          answerHint.textContent = "Observe a inclinação da reta e o sentido em que ela cresce.";
+        } else if (type === "graphFormula") {
+          questionPrompt.textContent = "Qual função descreve essa reta?";
+          answerLabel.textContent = "Escolha a fórmula da função";
+          answerInput.hidden = true;
+          formulaChoices.hidden = false;
+          renderFormulaChoices(line);
+          answerHint.textContent = "Analise a inclinação da reta e o ponto em que ela cruza o eixo y.";
+        } else {
+          questionPrompt.textContent = "Qual é a fórmula do termo geral que relaciona x e f(x)?";
+          answerLabel.textContent = "Fórmula da função";
+          answerInput.placeholder = "Exemplo: f(x) = 2x + 3";
+          answerInput.setAttribute("aria-label", "Digite a fórmula da função da tabela");
+          answerHint.textContent = "Use os pares da tabela para descobrir os coeficientes a e b.";
+          graphPanel.hidden = true;
+          tablePanel.hidden = false;
+          renderTable(line);
+        }
+
+        answered = false;
+        answerInput.value = "";
+        trendSelect.value = "";
+        confirmButton.hidden = true;
+        feedback.hidden = true;
+        nextButton.hidden = true;
+        answerInput.disabled = false;
+        trendSelect.disabled = false;
+        formulaChoices.querySelectorAll("input").forEach(input => input.disabled = false);
+
+        if (!answerInput.hidden) answerInput.focus();
+        else if (!trendSelect.hidden) trendSelect.focus();
+        else if (!formulaChoices.hidden) formulaChoices.querySelector("input")?.focus();
+      }
+
+      function parseFormula(value) {
+        let text = value.toLowerCase().trim()
+          .replace(/−/g, "-")
+          .replace(/,/g, ".")
+          .replace(/\s+/g, "")
+          .replace(/^f\(x\)=/, "")
+          .replace(/^y=/, "")
+          .replace(/\*/g, "");
+
+        const match = text.match(/^([+-]?\d*\.?\d*)x(?:([+-]\d+\.?\d*))?$/);
+        if (!match) return null;
+
+        let aText = match[1];
+        if (aText === "" || aText === "+") aText = "1";
+        if (aText === "-") aText = "-1";
+
+        const a = Number(aText);
+        const b = match[2] === undefined ? 0 : Number(match[2]);
+        if (!Number.isFinite(a) || !Number.isFinite(b)) return null;
+        return { a, b };
+      }
+
+      function isCorrect(value) {
+        const trimmed = value.trim();
+
+        if (currentQuestion.type === "trend") {
+          const normalized = trimmed.toLowerCase();
+          const expected = currentQuestion.a > 0 ? "crescente" : "decrescente";
+          return normalized === expected || normalized === expected.slice(0, 4);
+        }
+
+        if (currentQuestion.type === "a") {
+          return Number(trimmed.replace(",", ".")) === currentQuestion.a;
+        }
+
+        if (currentQuestion.type === "b") {
+          return Number(trimmed.replace(",", ".")) === currentQuestion.b;
+        }
+
+        const formula = parseFormula(trimmed);
+        return formula !== null &&
+          formula.a === currentQuestion.a &&
+          formula.b === currentQuestion.b;
+      }
+
+      function correctAnswerText() {
+        if (currentQuestion.type === "trend") {
+          return currentQuestion.a > 0 ? "crescente" : "decrescente";
+        }
+        if (currentQuestion.type === "a") return `a = ${currentQuestion.a}`;
+        if (currentQuestion.type === "b") return `b = ${currentQuestion.b}`;
+        return formatFunction(currentQuestion.a, currentQuestion.b);
+      }
+
+      function showFeedback(correct) {
+        feedback.hidden = false;
+        feedback.className = `feedback ${correct ? "correct" : "incorrect"}`;
+
+        if (correct) {
+          streak += 1;
+          makeDots();
+          feedback.innerHTML = `<strong>Isso mesmo!</strong> Resposta correta: ${correctAnswerText()}.`;
+
+          if (streak >= 10) {
+            nextButton.hidden = true;
+            answerForm.hidden = true;
+            window.setTimeout(showCertificate, 450);
+            return;
+          }
+
+          feedback.innerHTML += " Continue assim para completar a sequência.";
+        } else {
+          const previousStreak = streak;
+          streak = 0;
+          makeDots();
+          feedback.innerHTML = `<strong>Não foi dessa vez.</strong> A resposta correta era <strong>${correctAnswerText()}</strong>.`;
+          if (previousStreak > 0) feedback.innerHTML += " A sequência recomeçou do zero.";
+        }
+
+        answered = true;
+        answerInput.disabled = true;
+        trendSelect.disabled = true;
+        formulaChoices.querySelectorAll("input").forEach(input => input.disabled = true);
+        confirmButton.hidden = true;
+        nextButton.hidden = false;
+        nextButton.focus();
+      }
+
+      function showCertificate() {
+        quizScreen.hidden = true;
+        certificateScreen.hidden = false;
+        document.getElementById("congratsName").textContent = studentName;
+        document.getElementById("diplomaName").textContent = studentName;
+        document.getElementById("completionDate").textContent = new Intl.DateTimeFormat("pt-BR", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric"
+        }).format(new Date());
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function currentAnswer() {
+        if (currentQuestion?.type === "trend") return trendSelect.value;
+        if (currentQuestion?.type === "graphFormula") {
+          return formulaChoices.querySelector('input[name="formulaChoice"]:checked')?.value || "";
+        }
+        return answerInput.value;
+      }
+
+      function updateConfirmVisibility() {
+        confirmButton.hidden = answered || currentAnswer().trim().length === 0;
+      }
+
+      studentNameInput.addEventListener("input", () => {
+        startButton.hidden = studentNameInput.value.trim().length === 0;
+      });
+
+      startForm.addEventListener("submit", event => {
+        event.preventDefault();
+        studentName = studentNameInput.value.trim();
+        if (!studentName) return;
+
+        welcomeScreen.hidden = true;
+        quizScreen.hidden = false;
+        streak = 0;
+        questionQueue = [];
+        currentQuestion = null;
+        makeDots();
+        buildQuestion();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      answerInput.addEventListener("input", updateConfirmVisibility);
+      trendSelect.addEventListener("change", updateConfirmVisibility);
+      formulaChoices.addEventListener("change", updateConfirmVisibility);
+
+      answerForm.addEventListener("submit", event => {
+        event.preventDefault();
+        const response = currentAnswer().trim();
+        if (answered || response.length === 0) return;
+        showFeedback(isCorrect(response));
+      });
+
+      nextButton.addEventListener("click", buildQuestion);
+
+      document.getElementById("downloadCertificateButton").addEventListener("click", () => {
+        window.print();
+      });
+
+      document.getElementById("restartButton").addEventListener("click", () => {
+        certificateScreen.hidden = true;
+        welcomeScreen.hidden = false;
+        studentNameInput.value = "";
+        startButton.hidden = true;
+        studentName = "";
+        streak = 0;
+        questionQueue = [];
+        currentQuestion = null;
+        answerForm.hidden = false;
+        makeDots();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        studentNameInput.focus();
+      });
+
+      makeDots();
+    })();
+  </script>
+</body>
+</html>
